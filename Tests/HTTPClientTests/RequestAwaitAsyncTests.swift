@@ -40,9 +40,11 @@ final class RequestAwaitAsyncTests: XCTestCase {
         //Given
         session.response = .error
         do {
+            //When
             _ = try await dataSource!.request(resource: resource!)
             XCTFail("Expected error")
         } catch let error as NetworkError {
+            //Then
             XCTAssertFalse(transformCalled)
             XCTAssertNotNil(error)
             XCTAssertEqual(error, .invalidRequest)
@@ -56,9 +58,11 @@ final class RequestAwaitAsyncTests: XCTestCase {
         session.response = .errorHandleResponse
         //When
         do {
+            //When
             _ = try await dataSource!.request(resource: resource!)
             XCTFail("Expected error")
         } catch let error as NetworkError {
+            //Then
             XCTAssertFalse(transformCalled)
             XCTAssertEqual(error, .invalidResponse)
         } catch {
@@ -71,11 +75,12 @@ final class RequestAwaitAsyncTests: XCTestCase {
         session.response = .errorDecode
         //When
         do {
+            //When
             _ = try await dataSource!.request(resource: resource!)
             XCTFail("Expected decoding error")
         } catch let error as DecodingError {
+            //Then
             XCTAssertFalse(transformCalled)
-            // success: we got a DecodingError
         } catch {
             XCTFail("Expected DecodingError, got \(type(of: error))")
         }
