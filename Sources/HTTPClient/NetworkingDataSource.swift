@@ -49,8 +49,10 @@ public final class NetworkingDataSource: NetworkingProtocol {
             .map(resource.transform)
             .eraseToAnyPublisher()
     }
-    
-    static func validate(data: Data, response: URLResponse) throws -> Data {
+}
+
+extension NetworkingDataSource {
+    public static func validate(data: Data, response: URLResponse) throws -> Data {
         guard let http = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
