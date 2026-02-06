@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-@testable import ios_http_client
+@testable import HTTPClient
 
 class MockSession: Session {
     

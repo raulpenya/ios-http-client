@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import ios_http_client
+@testable import HTTPClient
 
 enum DataSourceResponse {
     case success

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import ios_http_client
+@testable import HTTPClient
 
 final class HandleResponseTests: XCTestCase {
     func test_handleResponse_success() {
