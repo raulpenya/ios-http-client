@@ -18,7 +18,7 @@ public protocol NetworkingProtocol {
     ) -> AnyPublisher<Q, Error>
 }
 
-public final class HTTPClient: NetworkingProtocol {
+public final class NetworkingDataSource: NetworkingProtocol {
     
     private let session: Session
     private let decoder: JSONDecoder

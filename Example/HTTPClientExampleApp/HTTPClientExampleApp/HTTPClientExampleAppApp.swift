@@ -11,7 +11,7 @@ import SwiftUI
 struct HTTPClientExampleAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ExampleViewAssemblerInjection().resolve()
+            ExampleView(viewModel: ExampleViewModel())
         }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExampleView: View {
     
-    @ObservedObject var viewModel: ExampleViewModel
+    @StateObject var viewModel: ExampleViewModel
     
     var body: some View {
         VStack {
@@ -24,8 +24,6 @@ struct ExampleView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExampleView(viewModel: ExampleViewModel())
-    }
+#Preview {
+    ExampleView(viewModel: ExampleViewModel())
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import ios_http_client
+import HTTPClient
 
 class ExampleDataSource {
     
@@ -16,7 +16,7 @@ class ExampleDataSource {
     
     private let client: NetworkingProtocol
     
-    init(client: NetworkingProtocol = HTTPClient()) {
+    init(client: NetworkingProtocol = NetworkingDataSource()) {
         self.client = client
     }
 
