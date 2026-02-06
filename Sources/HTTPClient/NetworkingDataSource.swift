@@ -57,9 +57,11 @@ extension NetworkingDataSource {
             throw NetworkError.invalidResponse
         }
         guard (200..<300).contains(http.statusCode) else {
+            let bodyString = String(data: data, encoding: .utf8)
+            let body = bodyString?.isEmpty == true ? nil : bodyString
             throw NetworkError.serverError(
                 statusCode: http.statusCode,
-                body: String(data: data, encoding: .utf8)
+                body: body
             )
         }
         return data
