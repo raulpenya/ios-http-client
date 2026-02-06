@@ -46,7 +46,7 @@ final class ApiTests: XCTestCase {
         }
         //Then
         XCTAssertNotNil(apiError)
-        XCTAssertEqual((apiError as? DataSourceErrors), DataSourceErrors.apiURLException)
+        XCTAssertEqual((apiError as? NetworkError), NetworkError.invalidRequest)
         XCTAssertNil(urlRequest)
     }
     
