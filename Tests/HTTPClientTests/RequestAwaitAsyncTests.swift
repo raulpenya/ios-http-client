@@ -10,11 +10,9 @@ import XCTest
 
 final class RequestAwaitAsyncTests: XCTestCase {
 
-    let dataSource = MockGenericNetworkingDataSource()
     let session = MockSession()
+    var dataSource: NetworkingDataSource?
     var transformCalled = false
-    var response: DataSourceResponse?
-    var errorResponse: Error?
     var urlRequest: URLRequest?
     var resource: Resource<PersonsRemoteEntity, [Person]>?
     
@@ -25,135 +23,61 @@ final class RequestAwaitAsyncTests: XCTestCase {
             return persons.transformToDomain()
         }
         transformCalled = false
-        response = nil
-        errorResponse = nil
+        dataSource = NetworkingDataSource(session: session)
     }
     
-    func test_request_success() {
+    func test_request_success() async throws {
         //Given
         session.response = .success
-        let expectation = expectation(description: "test_request_success")
         //When
-        Task {
-            do {
-                let persons = try await dataSource.request(with: session, resource: resource)
-                print(persons)
-                response = .success
-            } catch {
-                print(error)
-                errorResponse = error
-                response = .error
-            }
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 5, handler: nil)
+        let persons = try await dataSource!.request(resource: resource!)
         //Then
-        XCTAssertEqual(response, .success)
         XCTAssertTrue(transformCalled)
-        XCTAssertNil(errorResponse)
+        XCTAssertFalse(persons.isEmpty)
     }
     
-    func test_request_noresource_error() {
-        //Given
-        session.response = .success
-        let expectation = expectation(description: "test_request_noresource_error")
-        resource = nil
-        //When
-        Task {
-            do {
-                let persons = try await dataSource.request(with: session, resource: resource)
-                print(persons)
-                response = .success
-            } catch {
-                print(error)
-                errorResponse = error
-                response = .error
-            }
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 5, handler: nil)
-        //Then
-        XCTAssertEqual(response, .error)
-        XCTAssertFalse(transformCalled)
-        XCTAssertNotNil(errorResponse)
-        XCTAssertNotEqual((errorResponse! as NSError).domain.description, String.getErrorResponse())
-        XCTAssertEqual((errorResponse! as! DataSourceErrors).localizedDescription, DataSourceErrors.requestException.localizedDescription)
-        XCTAssertEqual((errorResponse! as! DataSourceErrors).code, DataSourceErrors.requestException.code)
-    }
-    
-    func test_request_error() {
+    func test_request_error() async {
         //Given
         session.response = .error
-        let expectation = expectation(description: "test_request_error")
-        //When
-        Task {
-            do {
-                let persons = try await dataSource.request(with: session, resource: resource)
-                print(persons)
-                response = .success
-            } catch {
-                print(error)
-                errorResponse = error
-                response = .error
-            }
-            expectation.fulfill()
+        do {
+            _ = try await dataSource!.request(resource: resource!)
+            XCTFail("Expected error")
+        } catch let error as NetworkError {
+            XCTAssertFalse(transformCalled)
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error, .invalidRequest)
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 5, handler: nil)
-        //Then
-        XCTAssertEqual(response, .error)
-        XCTAssertFalse(transformCalled)
-        XCTAssertNotNil(errorResponse)
     }
     
-    func test_request_handleResponse_error() {
+    func test_request_handleResponse_error() async {
         //Given
         session.response = .errorHandleResponse
-        let expectation = expectation(description: "test_request_handleResponse_error")
         //When
-        Task {
-            do {
-                let persons = try await dataSource.request(with: session, resource: resource)
-                print(persons)
-                response = .success
-            } catch {
-                print(error)
-                errorResponse = error
-                response = .error
-            }
-            expectation.fulfill()
+        do {
+            _ = try await dataSource!.request(resource: resource!)
+            XCTFail("Expected error")
+        } catch let error as NetworkError {
+            XCTAssertFalse(transformCalled)
+            XCTAssertEqual(error, .invalidResponse)
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 5, handler: nil)
-        //Then
-        XCTAssertEqual(response, .error)
-        XCTAssertFalse(transformCalled)
-        XCTAssertNotNil(errorResponse)
-        XCTAssertNotEqual((errorResponse! as NSError).domain.description, String.getErrorResponse())
-        XCTAssertEqual((errorResponse! as! DataSourceErrors).localizedDescription, DataSourceErrors.castHTTPURLResponseException.localizedDescription)
-        XCTAssertEqual((errorResponse! as! DataSourceErrors).code, DataSourceErrors.castHTTPURLResponseException.code)
     }
     
-    func test_request_decode_error() {
+    func test_request_decode_error() async {
         //Given
         session.response = .errorDecode
-        let expectation = expectation(description: "test_request_decode_error")
         //When
-        Task {
-            do {
-                let persons = try await dataSource.request(with: session, resource: resource)
-                print(persons)
-                response = .success
-            } catch {
-                print(error)
-                errorResponse = error
-                response = .error
-            }
-            expectation.fulfill()
+        do {
+            _ = try await dataSource!.request(resource: resource!)
+            XCTFail("Expected decoding error")
+        } catch let error as DecodingError {
+            XCTAssertFalse(transformCalled)
+            // success: we got a DecodingError
+        } catch {
+            XCTFail("Expected DecodingError, got \(type(of: error))")
         }
-        waitForExpectations(timeout: 5, handler: nil)
-        //Then
-        XCTAssertEqual(response, .error)
-        XCTAssertFalse(transformCalled)
-        XCTAssertNotNil(errorResponse)
     }
 }
-
