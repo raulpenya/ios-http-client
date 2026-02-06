@@ -8,6 +8,14 @@
 import Foundation
 
 public struct Resource<Response: Decodable, Output> {
-    let request: URLRequest
-    let transform: (Response) -> Output
+    public let request: URLRequest
+    public let transform: (Response) -> Output
+    
+    public init(
+        request: URLRequest,
+        transform: @escaping (Response) -> Output
+    ) {
+        self.request = request
+        self.transform = transform
+    }
 }
