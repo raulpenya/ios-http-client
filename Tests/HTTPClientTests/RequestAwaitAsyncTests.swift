@@ -1,6 +1,6 @@
 //
 //  RequestAwaitAsyncTests.swift
-//  iOS-Generic-Datasource-Tests
+//  HTTPClientTests
 //
 //  Created by raulbot on 24/2/23.
 //
@@ -78,7 +78,7 @@ final class RequestAwaitAsyncTests: XCTestCase {
             //When
             _ = try await dataSource!.request(resource: resource!)
             XCTFail("Expected decoding error")
-        } catch let error as DecodingError {
+        } catch _ as DecodingError {
             //Then
             XCTAssertFalse(transformCalled)
         } catch {

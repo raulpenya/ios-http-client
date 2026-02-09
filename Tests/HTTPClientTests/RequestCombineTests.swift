@@ -10,6 +10,10 @@ import XCTest
 
 @MainActor
 final class RequestCombineTests: XCTestCase {
+    enum DataSourceResponse {
+        case success
+        case error
+    }
     
     func test_request_success() {
         //Given
@@ -140,7 +144,7 @@ final class RequestCombineTests: XCTestCase {
         _ = cancellable
     }
     
-    func test_request_decode_error() {        
+    func test_request_decode_error() {
         //Given
         let session = MockSession()
         session.response = .errorDecode
