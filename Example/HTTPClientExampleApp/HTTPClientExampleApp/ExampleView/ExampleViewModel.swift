@@ -23,6 +23,17 @@ final class ExampleViewModel: ObservableObject {
         }
     }
     
+    func networkAsyncWithCacheButtonPressed() {
+        Task {
+            do {
+                let persons = try await datasource.getAllPersonsWithCache()
+                print(persons)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     func networkCombineButtonPressed() {
         datasource.getAllPersons().sink { completion in
             switch completion {

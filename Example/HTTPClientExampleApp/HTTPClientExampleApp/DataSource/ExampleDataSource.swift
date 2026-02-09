@@ -10,10 +10,6 @@ import Combine
 import HTTPClient
 
 class ExampleDataSource {
-    
-    static let personsArray = "https://10225bfa-a047-4ea0-9ded-715308e698e3.mock.pstmn.io/person/all"
-    static let personsError = "https://10225bfa-a047-4ea0-9ded-715308e698e3.mock.pstmn.io/person/error"
-    
     private let client: NetworkingProtocol
     
     init(client: NetworkingProtocol = NetworkingDataSource()) {
@@ -21,7 +17,15 @@ class ExampleDataSource {
     }
 
     func getAllPersons() async throws -> [Person] {
-        let request = URLRequest(url: URL(string: ExampleDataSource.personsArray)!)
+        let request = try! PersonsApi.getAllPersons.asURLRequest()
+        let resource = Resource<PersonsRemoteEntity, [Person]>(request: request) { persons in
+            return persons.transformToDomain()
+        }
+        return try await client.request(resource: resource)
+    }
+    
+    func getAllPersonsWithCache() async throws -> [Person] {
+        let request = try! PersonsApi.getAllPersonsWithCache.asURLRequest()
         let resource = Resource<PersonsRemoteEntity, [Person]>(request: request) { persons in
             return persons.transformToDomain()
         }
@@ -29,7 +33,7 @@ class ExampleDataSource {
     }
     
     func getAllPersons() -> AnyPublisher<[Person], Error> {
-        let request = URLRequest(url: URL(string: ExampleDataSource.personsArray)!)
+        let request = try! PersonsApi.getAllPersons.asURLRequest()
         let resource = Resource<PersonsRemoteEntity, [Person]>(request: request) { persons in
             return persons.transformToDomain()
         }

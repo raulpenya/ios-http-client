@@ -16,6 +16,9 @@ struct ExampleView: View {
             Button("network async") {
                 viewModel.networkAsyncButtonPressed()
             }
+            Button("network async with cache") {
+                viewModel.networkAsyncButtonPressed()
+            }
             Button("network combine") {
                 viewModel.networkCombineButtonPressed()
             }
