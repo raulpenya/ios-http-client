@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7F1777542F3603DA008ED122 /* ios-http-client in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1777532F3603DA008ED122 /* ios-http-client */; };
+		7F1777672F361350008ED122 /* HTTPClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1777662F361350008ED122 /* HTTPClient */; };
+		7F353D5E2F3614BB00ED0CB9 /* HTTPClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7F353D5D2F3614BB00ED0CB9 /* HTTPClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F1777542F3603DA008ED122 /* ios-http-client in Frameworks */,
+				7F1777672F361350008ED122 /* HTTPClient in Frameworks */,
+				7F353D5E2F3614BB00ED0CB9 /* HTTPClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +72,8 @@
 			);
 			name = HTTPClientExampleApp;
 			packageProductDependencies = (
-				7F1777532F3603DA008ED122 /* ios-http-client */,
+				7F1777662F361350008ED122 /* HTTPClient */,
+				7F353D5D2F3614BB00ED0CB9 /* HTTPClient */,
 			);
 			productName = HTTPClientExampleApp;
 			productReference = 7F1777442F3603AF008ED122 /* HTTPClientExampleApp.app */;
@@ -101,7 +104,7 @@
 			mainGroup = 7F17773B2F3603AF008ED122;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				7F1777522F3603DA008ED122 /* XCLocalSwiftPackageReference "../../../ios-http-client" */,
+				7F353D5C2F3614BB00ED0CB9 /* XCLocalSwiftPackageReference "../../../ios-http-client" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7F1777452F3603AF008ED122 /* Products */;
@@ -356,16 +359,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		7F1777522F3603DA008ED122 /* XCLocalSwiftPackageReference "../../../ios-http-client" */ = {
+		7F353D5C2F3614BB00ED0CB9 /* XCLocalSwiftPackageReference "../../../ios-http-client" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../../ios-http-client";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7F1777532F3603DA008ED122 /* ios-http-client */ = {
+		7F1777662F361350008ED122 /* HTTPClient */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = "ios-http-client";
+			productName = HTTPClient;
+		};
+		7F353D5D2F3614BB00ED0CB9 /* HTTPClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HTTPClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

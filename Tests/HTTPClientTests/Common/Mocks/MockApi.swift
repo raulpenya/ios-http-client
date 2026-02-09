@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import ios_http_client
+@testable import HTTPClient
 
 enum MockApi: Api {
     static let fakeBaseUrl = "www.fake.com/"

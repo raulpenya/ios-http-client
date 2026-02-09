@@ -1,12 +1,12 @@
 //
 //  ApiTests.swift
-//  iOS-Generic-Datasource-Tests
+//  HTTPClientTests
 //
 //  Created by raulbot on 22/3/23.
 //
 
 import XCTest
-@testable import ios_http_client
+@testable import HTTPClient
 
 final class ApiTests: XCTestCase {
     var urlRequest: URLRequest?
@@ -46,7 +46,7 @@ final class ApiTests: XCTestCase {
         }
         //Then
         XCTAssertNotNil(apiError)
-        XCTAssertEqual((apiError as? DataSourceErrors), DataSourceErrors.apiURLException)
+        XCTAssertEqual((apiError as? NetworkError), NetworkError.invalidRequest)
         XCTAssertNil(urlRequest)
     }
     
