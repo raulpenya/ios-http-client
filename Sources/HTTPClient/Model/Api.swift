@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Api {
+public protocol Api {
     var method: HTTPMethod { get }
     var url: String { get }
     var headerParams: [String: Any] { get }
@@ -17,7 +17,7 @@ protocol Api {
 }
 
 extension Api {
-    func asURLRequest() throws -> URLRequest {
+    public func asURLRequest() throws -> URLRequest {
         guard let url = URL(string: url) else {
             throw NetworkError.invalidRequest
         }
