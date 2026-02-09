@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import HTTPClient
 
-class ExampleDataSource {
+final class ExampleDataSource {
     private let client: NetworkingProtocol
     
     init(client: NetworkingProtocol = NetworkingDataSource()) {

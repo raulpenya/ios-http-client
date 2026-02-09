@@ -34,10 +34,18 @@ public final class NetworkingDataSource: NetworkingProtocol {
     public func request<T: Decodable, Q>(
         resource: Resource<T, Q>
     ) async throws -> Q {
-        let (data, response) = try await session.data(for: resource.request)
-        let validated = try Self.validate(data: data, response: response)
-        let entity = try decoder.decode(T.self, from: validated)
-        return resource.transform(entity)
+        do {
+            let (data, response) = try await session.data(for: resource.request)
+            let validated = try Self.validate(data: data, response: response)
+            let entity = try decoder.decode(T.self, from: validated)
+            return resource.transform(entity)
+        } catch let error as NetworkError {
+            throw error
+        } catch let error as DecodingError {
+            throw NetworkError.decoding(error)
+        } catch {
+            throw NetworkError.transport(error)
+        }
     }
     
     public func request<T: Decodable, Q>(
@@ -46,6 +54,15 @@ public final class NetworkingDataSource: NetworkingProtocol {
         session.executeTaskPublisher(for: resource.request)
             .tryMap(Self.validate)
             .decode(type: T.self, decoder: decoder)
+            .mapError { error in
+                if let networkError = error as? NetworkError {
+                    return networkError
+                } else if let decodingError = error as? DecodingError {
+                    return NetworkError.decoding(decodingError)
+                } else {
+                    return NetworkError.transport(error)
+                }
+            }
             .map(resource.transform)
             .eraseToAnyPublisher()
     }
