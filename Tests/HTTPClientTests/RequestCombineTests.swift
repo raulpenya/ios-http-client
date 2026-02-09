@@ -140,6 +140,11 @@ final class RequestCombineTests: XCTestCase {
         XCTAssertEqual(localResponse, .error)
         XCTAssertFalse(localTransformCalled)
         XCTAssertNotNil(localError)
+        let networkError = try! XCTUnwrap(localError as? NetworkError)
+        guard case .invalidResponse = networkError else {
+            XCTFail("Expected decoding error, got \(networkError)")
+            return
+        }
         
         _ = cancellable
     }
@@ -183,6 +188,11 @@ final class RequestCombineTests: XCTestCase {
         XCTAssertEqual(localResponse, .error)
         XCTAssertFalse(localTransformCalled)
         XCTAssertNotNil(localError)
+        let networkError = try! XCTUnwrap(localError as? NetworkError)
+        guard case .decoding = networkError else {
+            XCTFail("Expected decoding error, got \(networkError)")
+            return
+        }
         
         _ = cancellable
     }

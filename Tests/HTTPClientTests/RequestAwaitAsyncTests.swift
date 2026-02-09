@@ -78,7 +78,7 @@ final class RequestAwaitAsyncTests: XCTestCase {
             //When
             _ = try await dataSource!.request(resource: resource!)
             XCTFail("Expected decoding error")
-        } catch _ as DecodingError {
+        } catch NetworkError.decoding {
             //Then
             XCTAssertFalse(transformCalled)
         } catch {
