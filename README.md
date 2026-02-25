@@ -4,7 +4,7 @@ A lightweight, testable HTTP networking client for iOS and macOS, supporting asy
 ## Installation
 
 ```swift
-.package(url: "https://github.com/yourname/http-client.git", from: "1.0.0")
+.package(url: "https://github.com/raulpenya/ios-http-client.git", from: "X.X.X")
 ```
 
 ## Overview
